@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Life Church — Production Playbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&family=Source+Serif+4:ital,wght@0,300;1,300;1,400;1,600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:      #000000;
+      --white:      #ffffff;
+      --green:      #589a61;
+      --green-dark: #3d7345;
+      --gray:       #6d6d6d;
+      --gray-light: #e1e1e1;
+      --gray-bg:    #f7f7f7;
+      --text:       #111111;
+      --muted:      #6d6d6d;
+      --border:     #e1e1e1;
+      --bg-section: #f7f7f7;
+      --bg-callout-broadcast: #f2f8f3;
+      --bg-callout-receiving: #f9f9f9;
+      --border-broadcast: #589a61;
+      --border-receiving: #c4c4c4;
+      /* legacy aliases for any remaining references */
+      --navy:       #000000;
+      --navy-light: #222222;
+      --accent:     #589a61;
+      --accent-dim: #d6ecd9;
+      --radius:     4px;
+      --font:       'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      --font-serif: 'Source Serif 4', Georgia, serif;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.7;
+    }
+
+    /* ─── Typography ───────────────────────────────────────────────────────── */
+    h1, h2, h3, h4 { font-weight: 900; line-height: 1.15; color: var(--black); font-family: var(--font); }
+
+    h1 { font-size: 2.8rem; letter-spacing: -1px; text-transform: uppercase; }
+    h2 { font-size: 1.6rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: -0.3px; }
+    h3 { font-size: 1.1rem; margin-bottom: 0.4rem; font-weight: 700; }
+    h4 { font-size: 0.75rem; margin-bottom: 0.3rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); }
+
+    p { margin-bottom: 1rem; font-size: 0.97rem; }
+    strong { font-weight: 700; }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { color: var(--green-dark); text-decoration: underline; }
+
+    /* ─── Layout ───────────────────────────────────────────────────────────── */
+    .page-wrap { max-width: 880px; margin: 0 auto; padding: 0 2rem 4rem; }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+
+    /* ─── Cover ────────────────────────────────────────────────────────────── */
+    .cover {
+      background: var(--black);
+      color: var(--white);
+      padding: 5rem 3rem 4.5rem;
+      margin-bottom: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 5px;
+      background: var(--green);
+    }
+    .cover h1 {
+      color: var(--white);
+      font-size: 3.2rem;
+      margin-bottom: 1rem;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+    .cover .subtitle {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .cover .cover-tag {
+      display: inline-block;
+      background: var(--green);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 4px 14px;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ─── Table of Contents ────────────────────────────────────────────────── */
+    .toc {
+      background: var(--bg-section);
+      border-left: 5px solid var(--black);
+      padding: 1.75rem 2rem;
+      margin-bottom: 3rem;
+    }
+    .toc h2 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gray); margin-bottom: 1rem; }
+    .toc ol { padding-left: 1.25rem; }
+    .toc li { margin-bottom: 0.4rem; font-size: 0.93rem; }
+    .toc a { color: var(--black); font-weight: 600; }
+    .toc a:hover { color: var(--green); }
+    .toc .sub { padding-left: 1rem; list-style: disc; margin-top: 0.3rem; }
+    .toc .sub li { font-size: 0.86rem; color: var(--muted); }
+    .toc .sub a { color: var(--muted); font-weight: 400; }
+    .toc .sub a:hover { color: var(--green); }
+
+    /* ─── Vision Table ─────────────────────────────────────────────────────── */
+    .vision-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .vision-table td {
+      padding: 1.2rem 1.5rem;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+    }
+    .vision-table tr:last-child td { border-bottom: none; }
+    .vision-table .label {
+      font-weight: 900;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--white);
+      white-space: nowrap;
+      width: 130px;
+      background: var(--black);
+    }
+    .vision-table .value { color: var(--text); font-size: 0.95rem; }
+
+    /* ─── Attributes Grid ──────────────────────────────────────────────────── */
+    .attributes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .attr-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--black);
+      padding: 1.1rem 1.2rem;
+    }
+    .attr-card strong { display: block; font-size: 0.9rem; font-weight: 900; color: var(--black); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.3px; }
+    .attr-card span { font-size: 0.86rem; color: var(--muted); }
+
+    /* ─── Role Cards ───────────────────────────────────────────────────────── */
+    .role-card {
+      border: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .role-card .role-header {
+      background: var(--black);
+      color: var(--white);
+      padding: 0.9rem 1.4rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .role-card .role-header h3 {
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+    .role-card .role-body { padding: 1.3rem 1.5rem; }
+    .role-card .role-body p { font-size: 0.92rem; margin-bottom: 0.75rem; color: var(--gray); font-family: var(--font-serif); font-style: italic; font-weight: 300; }
+    .role-card ul { padding-left: 1.2rem; }
+    .role-card li { font-size: 0.91rem; margin-bottom: 0.4rem; }
+
+    /* ─── Training Table ───────────────────────────────────────────────────── */
+    .training-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.92rem;
+    }
+    .training-table th {
+      background: var(--black);
+      color: var(--white);
+      padding: 0.7rem 1rem;
+      text-align: left;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .training-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .training-table tr:last-child td { border-bottom: none; }
+    .training-table tr:nth-child(even) td { background: var(--bg-section); }
+    .training-table .week { font-weight: 700; color: var(--black); white-space: nowrap; }
+
+    /* ─── Schedule Table ───────────────────────────────────────────────────── */
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.93rem;
+    }
+    .schedule-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .schedule-table tr:last-child td { border-bottom: none; }
+    .schedule-table .time {
+      font-weight: 900;
+      color: var(--green);
+      width: 80px;
+    }
+    .schedule-table .event { font-weight: 700; color: var(--black); }
+    .schedule-table .note { font-size: 0.82rem; color: var(--muted); padding-left: 0; }
+
+    /* ─── Checklist Sections ───────────────────────────────────────────────── */
+    .checklist-section {
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .checklist-section:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+    .checklist-title {
+      background: var(--black);
+      color: var(--white);
+      padding: 1.1rem 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .checklist-title h2 {
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+    .checklist-body {
+      border: 1px solid var(--border);
+      border-top: none;
+      padding: 1.5rem;
+    }
+
+    .phase {
+      margin-bottom: 2rem;
+    }
+    .phase:last-child { margin-bottom: 0; }
+
+    .phase-header {
+      font-size: 0.7rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--white);
+      background: var(--green);
+      padding: 5px 12px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .sub-phase {
+      margin-bottom: 1.5rem;
+    }
+    .sub-phase h4 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.3rem;
+    }
+    .sub-phase .goal-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 0.75rem;
+    }
+
+    .check-list { list-style: none; padding: 0; }
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      padding: 0.35rem 0;
+      font-size: 0.92rem;
+      border-bottom: 1px solid #f0f1f5;
+    }
+    .check-list li:last-child { border-bottom: none; }
+    .check-list input[type="checkbox"] {
+      margin-top: 3px;
+      flex-shrink: 0;
+      width: 15px; height: 15px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+    .check-list .item-text { flex: 1; }
+    .check-list .item-sub {
+      display: block;
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      padding-left: 0.2rem;
+    }
+
+    /* Service segment rows */
+    .service-segment {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid #f0f1f5;
+      font-size: 0.92rem;
+    }
+    .service-segment:last-child { border-bottom: none; }
+    .service-segment input[type="checkbox"] {
+      margin-top: 3px;
+      flex-shrink: 0;
+      width: 15px; height: 15px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+    .seg-label {
+      font-weight: 700;
+      color: var(--navy);
+      min-width: 150px;
+    }
+    .seg-detail { flex: 1; color: var(--text); }
+    .seg-note {
+      display: block;
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    /* ─── Callout Blocks ───────────────────────────────────────────────────── */
+    .callout {
+      padding: 0.9rem 1.2rem;
+      margin: 0.75rem 0;
+      font-size: 0.88rem;
+    }
+    .callout-broadcast {
+      background: var(--bg-callout-broadcast);
+      border-left: 5px solid var(--green);
+    }
+    .callout-receiving {
+      background: var(--bg-section);
+      border-left: 5px solid var(--gray-light);
+    }
+    .callout strong { display: block; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 0.35rem; }
+    .callout-broadcast strong { color: var(--green-dark); }
+    .callout-receiving strong { color: var(--gray); }
+    .callout ul { padding-left: 1.1rem; margin-top: 0.3rem; }
+    .callout li { margin-bottom: 0.2rem; }
+
+    /* ─── Inline note ──────────────────────────────────────────────────────── */
+    .note-block {
+      background: var(--bg-section);
+      border-left: 5px solid var(--black);
+      padding: 0.8rem 1.1rem;
+      font-size: 0.87rem;
+      color: var(--text);
+      margin: 1rem 0;
+      font-style: italic;
+      font-family: var(--font-serif);
+    }
+
+    /* ─── Section Headings ─────────────────────────────────────────────────── */
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ─── Location Filter ──────────────────────────────────────────────────── */
+    .loc-filter {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0 1.05rem;
+      margin: -1.25rem 0 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .loc-filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.45rem;
+    }
+    .loc-filter-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--gray);
+      text-align: center;
+    }
+    .loc-filter-btn {
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 5px 13px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .loc-filter-btn:hover { border-color: var(--black); }
+    .loc-filter-btn.active {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--white);
+    }
+    .loc-filter-btn.active:hover {
+      background: var(--green-dark);
+      border-color: var(--green-dark);
+    }
+    .loc-hidden { display: none !important; }
+
+    /* ─── Print ────────────────────────────────────────────────────────────── */
+    @media print {
+      body { font-size: 11pt; }
+      .cover { background: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .toc { break-after: page; }
+      .checklist-section { break-before: page; }
+      .checklist-title { background: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .phase-header { background: #589a61 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .vision-table .label { background: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      a { color: inherit; }
+      input[type="checkbox"] { border: 1px solid #999; }
+      .loc-filter { display: none; }
+    }
+
+    /* ─── Responsive ───────────────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      h1 { font-size: 2rem; }
+      .attributes-grid { grid-template-columns: 1fr; }
+      .service-segment { flex-direction: column; gap: 0.3rem; }
+      .seg-label { min-width: unset; }
+      .cover { padding: 3rem 1.5rem; }
+      .page-wrap { padding: 0 1.25rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  COVER                                                                  -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="cover">
+    <div class="cover-tag">The Life Church</div>
+    <h1>Production Playbook</h1>
+    <p class="subtitle">Production Team Guide</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  LOCATION FILTER                                                        -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="loc-filter" role="group" aria-label="Filter positions and checklists by location">
+    <span class="loc-filter-label">Location</span>
+    <div class="loc-filter-row">
+      <button type="button" class="loc-filter-btn active" data-filter="all">All</button>
+      <button type="button" class="loc-filter-btn" data-filter="hl">Houston Levee</button>
+      <button type="button" class="loc-filter-btn" data-filter="ap">Austin Peay</button>
+      <button type="button" class="loc-filter-btn" data-filter="hi">Highland</button>
+      <button type="button" class="loc-filter-btn" data-filter="dc">DC Metro</button>
+      <button type="button" class="loc-filter-btn" data-filter="na">Nashville</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  TABLE OF CONTENTS                                                      -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#intro">Introduction</a></li>
+      <li><a href="#vision">Vision, Purpose &amp; Goal</a></li>
+      <li><a href="#attributes">Key Attributes</a></li>
+      <li><a href="#team-overview">Team Overview</a></li>
+      <li><a href="#responsibilities">Production Positions &amp; Responsibilities</a>
+        <ul class="sub">
+          <li data-loc="hl ap hi dc na"><a href="#role-pro">ProPresenter Operator</a></li>
+          <li data-loc="hl ap hi"><a href="#role-team-lead">Team Lead</a></li>
+          <li data-loc="hl ap hi"><a href="#role-pvp">PVP Operator</a></li>
+          <li data-loc="hl ap hi"><a href="#role-lighting">Lighting Director</a></li>
+          <li data-loc="ap hi"><a href="#role-pvs">PVS Operator</a></li>
+          <li data-loc="hl na"><a href="#role-director">Director</a></li>
+          <li data-loc="hl"><a href="#role-td">Tech Director</a></li>
+          <li data-loc="hl na"><a href="#role-camera">Camera Operator</a></li>
+          <li data-loc="hl"><a href="#role-clock">Time Clock Operator</a></li>
+          <li data-loc="hl"><a href="#role-broadcast">Broadcast Director</a></li>
+          <li data-loc="hl"><a href="#role-recording">Recording Engineer</a></li>
+          <li data-loc="hl"><a href="#role-pa">Production Assistant</a></li>
+        </ul>
+      </li>
+      <li><a href="#training">Training Process</a></li>
+      <li><a href="#schedule">Service Schedule</a></li>
+      <li><a href="#checklists">Position Checklists</a>
+        <ul class="sub">
+          <li data-loc="hl ap hi dc na"><a href="#cl-pro">ProPresenter Operator Checklist</a></li>
+          <li data-loc="hl ap hi"><a href="#cl-team-lead">Team Lead Checklist</a></li>
+          <li data-loc="hl ap hi"><a href="#cl-pvp">PVP Operator Checklist</a></li>
+          <li data-loc="hl ap hi"><a href="#cl-lighting">Lighting Director Checklist</a></li>
+          <li data-loc="ap hi"><a href="#cl-pvs">PVS Operator Checklist</a></li>
+          <li data-loc="hl na"><a href="#cl-director">Director Checklist</a></li>
+          <li data-loc="hl"><a href="#cl-td">Tech Director Checklist</a></li>
+          <li data-loc="hl na"><a href="#cl-camera">Camera Operator Checklist</a></li>
+          <li data-loc="hl"><a href="#cl-clock">Time Clock Operator Checklist</a></li>
+          <li data-loc="hl"><a href="#cl-broadcast">Broadcast Director Checklist</a></li>
+          <li data-loc="hl"><a href="#cl-recording">Recording Engineer Checklist</a></li>
+          <li data-loc="hl"><a href="#cl-pa">Production Assistant Checklist</a></li>
+        </ul>
+      </li>
+    </ol>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  INTRODUCTION                                                           -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="intro">
+    <div class="section-label">Introduction</div>
+    <h2>Welcome to the Production Team</h2>
+    <p>
+      Welcome to the Production Team. Thank you for being part of the Production Team at The Life Church! As expressed in Psalm 92:12-15, we believe being planted in God's house and serving with others is one of the most important aspects of being a Christian.
+    </p>
+    <p>
+      Every weekend, thousands of people walk through the doors of The Life Church looking for something real. What they experience doesn't happen by accident. It happens because a skilled, committed production team shows up prepared, serves with excellence, and remains invisible in all the right ways.
+    </p>
+    <p>
+      That's the role you play. Production doesn't draw attention to itself. It creates the conditions for something greater to happen. When your work is done well, people encounter God without distraction. When it isn't, they notice the technology instead of the moment.
+    </p>
+    <p>
+      This playbook is your guide. It covers who we are, how we operate, what each position requires, and the specific steps you need to follow every single week. Read it carefully, refer back to it often, and bring this standard every time you serve.
+    </p>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  VISION / PURPOSE / GOAL                                                -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="vision">
+    <div class="section-label">Foundation</div>
+    <h2>Vision, Purpose &amp; Goal</h2>
+    <table class="vision-table">
+      <tr>
+        <td class="label">Vision</td>
+        <td class="value">We are one church in many locations — dynamic, Spirit-filled and diverse — serving people, developing leaders and impacting generations.</td>
+      </tr>
+      <tr>
+        <td class="label">Purpose</td>
+        <td class="value">Our purpose is to leverage every tool at our disposal — video, lighting, graphics, time-keeping, and more — to serve the vision of the church by creating a dynamic environment where people can have a genuine experience with God.</td>
+      </tr>
+      <tr>
+        <td class="label">Goal</td>
+        <td class="value">Our goal is to consistently produce excellent services and events that are free from distraction, while continuously growing, equipping, and empowering the volunteers who make it happen.</td>
+      </tr>
+    </table>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  KEY ATTRIBUTES                                                         -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="attributes">
+    <div class="section-label">Standards</div>
+    <h2>Key Attributes of a Production Team Member</h2>
+    <p>Technical skill matters, but it's secondary to character. These are the qualities that define every member of this team.</p>
+    <div class="attributes-grid">
+      <div class="attr-card">
+        <strong>Detail-Oriented</strong>
+        <span>You notice what others miss. You catch problems before they become distractions and correct them without being asked.</span>
+      </div>
+      <div class="attr-card">
+        <strong>Punctual</strong>
+        <span>You are at your position, ready, at your call time, not walking in at your call time. The team depends on you being in place and ready to go.</span>
+      </div>
+      <div class="attr-card">
+        <strong>Available</strong>
+        <span>You show up for your scheduled services and are willing to serve for special events when needed. Reliability is part of the role.</span>
+      </div>
+      <div class="attr-card">
+        <strong>Decisive</strong>
+        <span>You execute confidently with the things you've rehearsed and the things you haven't. When the plan changes, you adapt and move forward without hesitation.</span>
+      </div>
+      <div class="attr-card">
+        <strong>Flexible</strong>
+        <span>Services change. Elements shift. You adapt quickly and calmly without frustration, and you communicate changes clearly to the rest of the team.</span>
+      </div>
+      <div class="attr-card">
+        <strong>Patient</strong>
+        <span>You stay composed and attentive from the first moment to the last. Fatigue, stress, and long mornings don't show up in your work.</span>
+      </div>
+      <div class="attr-card">
+        <strong>Teachable</strong>
+        <span>You receive feedback without defensiveness and actively look for ways to improve. Your best work is always in front of you, not behind you.</span>
+      </div>
+      <div class="attr-card">
+        <strong>Team-First</strong>
+        <span>You serve the vision over personal preference. You communicate proactively, cover gaps, and never leave a teammate hanging.</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  TEAM OVERVIEW                                                          -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="team-overview">
+    <div class="section-label">How We Operate</div>
+    <h2>Team Overview</h2>
+    <p>
+      The Life Church operates a two-model production structure across its locations. The <strong>Houston Levee location</strong> serves as the <strong>Broadcast Location</strong>. It originates the live service, running a full broadcast production that is distributed via <strong>Vitec</strong> (our video distribution system) to four Receiving Locations in real time.
+    </p>
+    <p>
+      Each of the four <strong>Receiving Locations</strong> has its own production team responsible for seamlessly integrating the incoming Vitec feed while managing local production elements — videos, slides, and any other on-site content.
+    </p>
+    <p>
+      This means the two locations operate similarly but carry different weights of responsibility. Houston Levee controls what other locations see. Receiving Locations ensure their local experience matches the broadcast location's quality and intention.
+    </p>
+    <div class="callout callout-broadcast">
+      <strong>Broadcast Location — Houston Levee</strong>
+      Originates the live program feed. Runs full production including all cameras, graphics, video playback, and the outgoing Vitec signal. The Broadcast Director monitors and manages the outbound feed.
+    </div>
+    <p>
+      Changes or updates in services are communicated regularly through Google Chat groups. The Broadcast Time Clock is viewable via a YouTube link.
+    </p>
+    <div class="callout callout-receiving">
+      <strong>Receiving Locations (4 locations)</strong>
+      Receive the live Vitec feed and integrate it with local production. Manage videos, local slides, notes (LT) and attend the Team Touchdown before each service to align on flow and transitions.
+    </div>
+    <p style="margin-top:1rem;">
+      Throughout this playbook, differences between Broadcast and Receiving responsibilities are noted clearly in each section.
+    </p>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  PRODUCTION POSITIONS                                                   -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="responsibilities">
+    <div class="section-label">Roles</div>
+    <h2>Production Positions &amp; Responsibilities</h2>
+    <p>Some positions exist at multiple locations with location-specific scope; others exist only at Houston Levee. Multi-location positions are listed first.</p>
+
+    <!-- ProPresenter Operator -->
+    <div class="role-card" id="role-pro" data-loc="hl ap hi dc na">
+      <div class="role-header"><h3>ProPresenter Operator</h3></div>
+      <div class="role-body">
+        <p>The ProPresenter Operator runs ProPresenter for the service. The specific scope of this role varies by location — see the location callouts below for the responsibilities that apply at each location.</p>
+        <ul>
+          <li>Select the Sunday service playlist and verify all slides and videos before rehearsal</li>
+          <li>Follow all songs during Worship Team rehearsal — know every verse, chorus, and bridge</li>
+          <li>Lead lyrics consistently early — never be on time or lag behind the Worship Team</li>
+          <li>Fire videos and advance slides precisely on cue</li>
+          <li>Communicate immediately if a slide or lyrics are missing, incorrect, or a video fails to load</li>
+          <li>Know the Clear All function and use it without hesitation if wrong content goes live</li>
+        </ul>
+        <div class="callout callout-broadcast" style="margin-top:0.75rem;">
+          <strong>Broadcast Location — Houston Levee</strong>
+          Handles lyrics, message notes, and lower-thirds titles &amp; slides.
+        </div>
+        <div class="callout callout-receiving" style="margin-top:0.75rem;">
+          <strong>Receiving Locations — Memphis</strong>
+          Same scope as Houston Levee, plus Time Clock operation.
+        </div>
+        <div class="callout callout-receiving" style="margin-top:0.75rem;">
+          <strong>Receiving Locations — DC Metro &amp; Nashville</strong>
+          Handles all slides and video playback, plus executing cue for message playback (the Vitec video stream plays through PVS — ProVideoServer — to ProPresenter). Also handles lighting cues and transitions.
+        </div>
+      </div>
+    </div>
+
+<!-- Team Lead -->
+    <div class="role-card" id="role-team-lead" data-loc="hl ap hi">
+      <div class="role-header"><h3>Team Lead</h3></div>
+      <div class="role-body">
+        <p>The Team Lead is responsible for the precise exection of the service flow. This position is the bridge between the Production Team and 5 Star. Team Leads and 5 Stars from all locations remain in constant communication to ensure coordination between Production Team members, the Worship Team and anyone speaking from stage.</p>
+        <ul>
+          <li>Carefully review service flow and note important transitions</li>
+          <li>Review message notes for cosistency with written notes submitted from speakers</li>
+          <li>Lead team touchdown prior to service – review service flow with team</li>
+          <li>Highlight key transitions with specific team positions</li>
+          <li>Call transitions for team execution when necessary</li>
+          <li>Communicate technical issues along with approximate resolution times</li>
+          <li>Contact Production Technician immediately in the case of any technical issues</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PVP Operator -->
+    <div class="role-card" id="role-pvp" data-loc="hl ap hi">
+      <div class="role-header"><h3>PVP Operator</h3></div>
+      <div class="role-body">
+        <p>The PVP (ProVideoPlayer) Operator manages all motion background and environmental video content throughout the service. This position works in close coordination with the ProPresenter Operator and the Tech Director to ensure backgrounds are correct, transitions are clean, and every clip is cued and ready.</p>
+        <ul>
+          <li>Select playlist and verify all cues are present, operational and in the correct order</li>
+          <li>Test playback quality, color, and audio levels for every cue before rehearsal</li>
+          <li>Confirm PVP output is routing correctly to the switcher, screens, etc</li>
+          <li>Coordinate with the ProPresenter Operator and Director on shared timing and transitions</li>
+          <li>Respond to Team Lead and Director cues in real time</li>
+        </ul>
+        <div class="callout callout-receiving" style="margin-top:0.75rem;">
+          <strong>Receiving Locations — Memphis</strong>
+          Handles everything the same as Houston Levee, plus executing cue for message playback (the Vitec video stream plays through PVS — ProVideoServer — to PVP).
+        </div>
+      </div>
+    </div>
+
+    <!-- Lighting Director -->
+    <div class="role-card" id="role-lighting" data-loc="hl ap hi">
+      <div class="role-header"><h3>Lighting Director</h3></div>
+      <div class="role-body">
+        <p>The Lighting Director executes pre-programmed lighting cues in time with each service segment. This role does not program lighting — it runs the show. Tight cue execution shapes the room's energy at every transition: worship, message, MC moments, etc. all rely on the Lighting Director to fire the right look at the right time.</p>
+        <ul>
+          <li>Verify the lighting console and lighting fixtures are online and all programmed cues load correctly</li>
+          <li>Review the service flow and cue list before rehearsal — know every cue and its trigger</li>
+          <li>Execute pre-programmed cues precisely during song progression and on segment transitions</li>
+          <li>Hold cues steady during performance; never busk or freelance lighting changes mid-segment</li>
+          <li>Communicate immediately if a cue fails to fire or a fixture goes down</li>
+          <li>Coordinate with the Team Lead and 5 Star on any timing adjustments during the service</li>
+        </ul>
+        <div class="callout callout-broadcast" style="margin-top:0.75rem;">
+          <strong>Broadcast Location — Houston Levee</strong>
+          Also executes Main Screen movements as indicated in the service flow.
+        </div>
+        <div class="callout callout-receiving" style="margin-top:0.75rem;">
+          <strong>Receiving Locations — Memphis</strong>
+          Executes pre-programmed lighting cues only.
+        </div>
+      </div>
+    </div>
+
+    <!-- PVS Operator -->
+    <div class="role-card" id="role-pvs" data-loc="ap hi">
+      <div class="role-header"><h3>PVS Operator</h3></div>
+      <div class="role-body">
+        <p>The PVS (ProVideoServer) Operator manages the video server that receives the live Vitec broadcast feed from Houston Levee and routes it into the local production system (PVP and ProPresenter). This position is critical for receiving locations — every video that originates from the broadcast location, including the message, passes through PVS before it reaches the room.</p>
+        <ul>
+          <li>Power on the PVS and confirm the Vitec feed is incoming, stable, and routed correctly</li>
+          <li>Verify all pre-loaded videos and message playback content are present, in order, and cued correctly</li>
+          <li>Test playback of every cue before rehearsal — confirm video and audio quality</li>
+          <li>Confirm PVS output is routing correctly to PVP and ProPresenter (verify with PVP and ProPresenter Operators)</li>
+          <li>Cue and fire message playback precisely on the Team Lead's call</li>
+          <li>Communicate immediately if the Vitec feed drops, lags, or shows quality issues</li>
+          <li>Coordinate with the PVP Operator, ProPresenter Operator, and Team Lead on shared timing and transitions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Director -->
+    <div class="role-card" id="role-director" data-loc="hl na">
+      <div class="role-header"><h3>Director</h3></div>
+      <div class="role-body">
+        <p>The Director owns the visual presentation of the service. Working from the production booth, the Director calls every camera shot, communicates transitions to the Tech Director, and ensures what goes to screen is engaging, focused, and distraction-free. This role requires deep preparation. The Director should know the service better than anyone in the room.</p>
+        <ul>
+          <li>Study the service flow and worship setlist in advance of each service</li>
+          <li>Call all camera shots clearly and confidently — by number and frame description when necessary</li>
+          <li>Communicate transitions, segment changes, and cues to the Tech Director and Camera Operators</li>
+          <li>Monitor pacing, framing, and composition on every shot going to program</li>
+          <li>Respond immediately to changes communicated by the 5 Star or other team members</li>
+          <li>Lead camera rehearsal during the Full Service Run-through</li>
+          <li>Attend Touchdown and confirm any last-minute changes</li>
+          <li>Coordinate with the Broadcast Director on transition timing and outbound signal quality</li>
+        </ul>
+        <div class="callout callout-receiving" style="margin-top:0.75rem;">
+          <strong>Receiving Location - Nashville</strong>
+          This position also manages livestream events and streaming services on YouTube.
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech Director -->
+    <div class="role-card" id="role-td" data-loc="hl">
+      <div class="role-header"><h3>Tech Director</h3></div>
+      <div class="role-body">
+        <p>The Tech Director operates the video switcher, executing the Director's shot calls in real time. This role demands precision, fast reflexes, and total familiarity with the switcher layout. Every cut and transition is a live, unforgiving action — there are no retakes.</p>
+        <ul>
+          <li>Verify all switcher inputs and outputs before rehearsal</li>
+          <li>Execute cuts exactly as called by the Director</li>
+          <li>Monitor all camera feeds and source inputs on the multiviewer continuously</li>
+          <li>Manage video playback switching between live cameras and pre-recorded content</li>
+          <li>Be prepared to go to a backup source immediately there is a camera issue or if a feed is lost</li>
+          <li>Communicate any signal issues to the Director right away</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Camera Operator -->
+    <div class="role-card" id="role-camera" data-loc="hl na">
+      <div class="role-header"><h3>Camera Operator</h3></div>
+      <div class="role-body">
+        <p>Camera Operators capture the people and moments that make the service compelling on screen. This role demands technical precision — clean focus, smooth movements, proper framing — and the instinct to have the right shot ready before the Director calls it.</p>
+        <ul>
+          <li>Check pan, tilt, zoom, and focus before rehearsal begins</li>
+          <li>Execute pan, tilt, zoom, and focus with smooth, deliberate movements</li>
+          <li>"Sell" shots to the Director — frame confidently and move steadily until called</li>
+          <li>Respond to Director's shot calls instantly and without hesitation</li>
+          <li>Study the setlist and service flow to anticipate movements and key moments</li>
+          <li>Communicate to the Director immediately if a shot is unavailable or a camera issue arises</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Time Clock Operator -->
+    <div class="role-card" id="role-clock" data-loc="hl">
+      <div class="role-header"><h3>Time Clock Operator</h3></div>
+      <div class="role-body">
+        <p>The Time Clock Operator manages service timing, keeping the production team informed of where the service stands against the planned flow at every moment. This role is critical to preventing overruns and ensuring smooth, on-time transitions between services.</p>
+        <ul>
+          <li>Review all time segments in the service flow before the run-through</li>
+          <li>Align countdown segments to match the service flow sequence</li>
+          <li>Track actual vs. planned timing during run-through; document all discrepancies</li>
+          <li>Communicate timing information to the Team Lead and 5 Star proactively</li>
+          <li>Alert the Team Lead if any segment is running long or short</li>
+          <li>Adjust clock cues on the fly as the service evolves</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Broadcast Director -->
+    <div class="role-card" id="role-broadcast" data-loc="hl">
+      <div class="role-header"><h3>Broadcast Director</h3></div>
+      <div class="role-body">
+        <p>The Broadcast Director is a Houston Levee-specific role responsible for the outgoing program feed distributed via Vitec to all four Receiving Locations. Working alongside the Director, the Broadcast Director ensures the feed is broadcast-quality, properly framed for a distributed audience, and technically stable at all times.</p>
+        <ul>
+          <li>Review the full service flow with a broadcast lens — identify every Vitec transition point</li>
+          <li>Confirm Vitec distribution is online and feeding all Receiving Locations before service</li>
+          <li>Continuously monitor the outgoing program feed — not just in-room content</li>
+          <li>Coordinate with the Tech Director on transition timing for broadcast-appropriate cuts</li>
+          <li>Ensure all pre-recorded content is broadcast-quality before it airs</li>
+          <li>Communicate feed status to Receiving Locations if technical issues arise</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Recording Engineer -->
+    <div class="role-card" id="role-recording" data-loc="hl">
+      <div class="role-header"><h3>Recording Engineer</h3></div>
+      <div class="role-body">
+        <p>The Recording Engineer captures all video feeds from the service for post-production use — including message editing and content distribution. This role requires meticulous attention to signal quality and disciplined file management after every service.</p>
+        <ul>
+          <li>Set up all recording equipment and verify signal routing before call time</li>
+          <li>Insert and verify recording media (SSD) before service begins</li>
+          <li>Test record and verify audio and video quality before the run-through</li>
+          <li>Monitor recording levels and signal throughout the entire service</li>
+          <li>Properly label and back up all media immediately after service</li>
+          <li>Deliver edited content per agreed timeline</li>
+          <li>Manage livestream events and streaming services on YouTube</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Production Assistant -->
+    <div class="role-card" id="role-pa" data-loc="hl">
+      <div class="role-header"><h3>Production Assistant</h3></div>
+      <div class="role-body">
+        <p>The Production Assistant supports the broadcast production team across the entire service — from setup through teardown. This is a flexible, hands-on role that fills gaps, assists every position, and keeps the production environment running smoothly. The Production Assistant is the team's extra set of hands and eyes.</p>
+        <ul>
+          <li>Arrive early to assist with power and setup of equipment as needed</li>
+          <li>Run errands between the control room, stage, and other locations as directed</li>
+          <li>Distribute and manage comms packs, batteries, and small production gear as needed</li>
+          <li>Relay messages between the Team Lead, 5 Star, and on-stage talent when comms are not in use</li>
+          <li>Be available throughout the service to respond to any team member's request</li>
+          <li>Respond to or assist with any issues that arise during services</li>
+          <li>Assist with teardown and storage of all equipment after the final service</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  TRAINING PROCESS                                                       -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="training">
+    <div class="section-label">Onboarding</div>
+    <h2>Training Process</h2>
+    <p>
+      Training happens at each location during weekend services through a structured shadowing model. The timeline adjusts based on the individual's prior experience, but the progression does not skip steps. No one moves to a rostered position without completing the full training process and meeting with the Team Lead.
+    </p>
+
+    <h3 style="margin-top:1.5rem;">Broadcast Location — Houston Levee</h3>
+    <table class="training-table">
+      <thead>
+        <tr><th>Phase</th><th>Focus</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="week">Weeks 1–2</td>
+          <td><strong>I Do. You Watch.</strong></td>
+          <td>Observe the position in full. Take notes. Ask questions after the service.</td>
+        </tr>
+        <tr>
+          <td class="week">Week 3</td>
+          <td><strong>Location Visit</strong></td>
+          <td>Observe at a Receiving Location. Understand what they receive via Vitec and what they need from the broadcast location to do their job well.</td>
+        </tr>
+        <tr>
+          <td class="week">Week 4</td>
+          <td><strong>You Do. I Help.</strong></td>
+          <td>Take the position with the trainer alongside you. The Team Lead evaluates readiness and team fit at this stage.</td>
+        </tr>
+        <tr>
+          <td class="week">Weeks 5–6</td>
+          <td><strong>You Do. I Watch.</strong></td>
+          <td>Operate fully independently. Trainer is present but hands off entirely unless an issue arises.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:1.5rem;">Receiving Locations</h3>
+    <table class="training-table">
+      <thead>
+        <tr><th>Phase</th><th>Focus</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="week">Weeks 1–2</td>
+          <td><strong>I Do. You Watch.</strong></td>
+          <td>Observe the position in full. Understand the Vitec integration, local responsibilities, and Touchdown process.</td>
+        </tr>
+        <tr>
+          <td class="week">Week 3</td>
+          <td><strong>You Do. I Help.</strong></td>
+          <td>Take the position with the trainer alongside you. The Team Lead evaluates readiness and team fit.</td>
+        </tr>
+        <tr>
+          <td class="week">Weeks 4–5</td>
+          <td><strong>You Do. I Watch.</strong></td>
+          <td>Operate fully independently. Trainer is present but hands off.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-block">
+      Before training is considered complete, every team member must meet with the Team Lead for a brief evaluation conversation.
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  SERVICE SCHEDULE                                                       -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="schedule">
+    <div class="section-label">Timeline</div>
+    <h2>Service Schedule</h2>
+    <p style="color:var(--muted); font-size:0.9rem; margin-bottom:1rem;">Based on a 9:00a service at Houston Levee (Broadcast Location). Receiving Locations follow the same general timeline unless otherwise noted by their Team Lead.</p>
+    <table class="schedule-table">
+      <tbody>
+        <tr>
+          <td class="time">6:30a</td>
+          <td class="event">Production &amp; Worship Call Time</td>
+        </tr>
+        <tr>
+          <td class="time">6:45a</td>
+          <td class="event">Worship Team Rehearsal Downbeat</td>
+        </tr>
+        <tr>
+          <td class="time">7:30a</td>
+          <td class="event">5 Star Call Time</td>
+          <td class="note">90 minutes prior to service</td>
+        </tr>
+        <tr>
+          <td class="time">7:45a</td>
+          <td class="event">Full Service Run-Through</td>
+        </tr>
+        <tr>
+          <td class="time">8:30a</td>
+          <td class="event">Team Touchdown</td>
+          <td class="note">Required before every service</td>
+        </tr>
+        <tr>
+          <td class="time">8:58a</td>
+          <td class="event">Countdown</td>
+        </tr>
+        <tr>
+          <td class="time">9:00a</td>
+          <td class="event">Service Begins</td>
+        </tr>
+        <tr>
+          <td class="time">10:30a</td>
+          <td class="event">Post Service</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  CHECKLISTS                                                             -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="checklists">
+    <div class="section-label">Checklists</div>
+    <h2>Position Checklists</h2>
+    <p>Use these checklists every week — not just during training. Consistency is what separates good production from great production.</p>
+
+    <!-- ──────────────────────────────────── PROPRESENTER OPERATOR ─────────── -->
+    <div class="checklist-section" id="cl-pro" data-loc="hl ap hi dc na">
+      <div class="checklist-title"><h2>ProPresenter Operator Checklist</h2></div>
+      <div class="checklist-body">
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Power on the ProPresenter computer</span></li>
+              <li><input type="checkbox"><span class="item-text">Launch ProPresenter and load the Sunday service playlist</span></li>
+              <li><input type="checkbox"><span class="item-text">Close all unnecessary background applications</span></li>
+              <li><input type="checkbox"><span class="item-text">Click through every slide in the playlist — verify text, formatting, and media</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm all videos are present and will play correctly</span></li>
+              <li><input type="checkbox"><span class="item-text">Check all scripture slides for accuracy</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm announcement graphics are in the correct order</span></li>
+              <li><input type="checkbox"><span class="item-text">Review all song lyrics — know every verse, chorus, bridge, and tag</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm intercom (comms) is live</span></li>
+              <li><input type="checkbox"><span class="item-text">Know the location of the Clear All button — use it immediately if wrong content goes live</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <p class="goal-note">Goal: Know the content well enough that you are leading the congregation — not following them.</p>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text"><strong>Worship</strong> — Follow along; advance slides in rhythm, leading by half a line at minimum
+                <span class="item-sub">Note any song structure changes made by the Worship Team during rehearsal</span>
+                <span class="item-sub">Practice songs with unusual structures (extended bridges, repeated tags)</span>
+              </span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>MC Segments</strong> — Advance announcement graphics on Director's or 5 Star's cue</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Special Segments</strong> — Confirm timing for any custom slides or overlays</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Follow message notes; confirm all scripture slides are ready and in order</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Note and correct any slide errors before first service</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm any changes with Director or 5 Star</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Note any last-minute slide additions or changes from 5 Star or Director</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome</strong> — Have opening slide ready before the countdown ends</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Ministry Time</strong> — Follow the Worship Team; lead lyrics consistently throughout the set</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close Worship / Info</strong> — Transition to info slides on cue; clear lyrics at end of worship</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Offering</strong> — Advance offering-related slides on cue</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Meet and Greet</strong> — Hold or clear screen as directed</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Videos</strong> — Clear screen before video rolls; return to correct slide after video ends</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Advance scripture and message slides in sync with the speaker</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Advance close slides on cue; clear screen on final cue</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Note any slide or media issues for correction before next service</span></li>
+            <li><input type="checkbox"><span class="item-text">Report any software problems to the Team Lead</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────── TEAM LEAD ──────────────────── -->
+    <div class="checklist-section" id="cl-team-lead" data-loc="hl ap hi">
+      <div class="checklist-title"><h2>Team Lead Checklist</h2></div>
+      <div class="checklist-body">
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Review the full service flow document; note every transition, special segment, and timing target</span></li>
+              <li><input type="checkbox"><span class="item-text">Review message notes for consistency with written notes submitted by speakers; flag any discrepancies</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm 5 Star is aligned on the service flow and any last-minute updates</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm every position is staffed; coordinate with the 5 Star on any gaps</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify intercom (comms) is live and that every operator is on channel</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm Production Technician contact info is on hand in case of technical issues</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <p class="goal-note">Goal: Ensure every position is rehearsed, every transition is clear, and every issue is identified before first service.</p>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Monitor execution of every segment; identify weak transitions or unclear cues</span></li>
+              <li><input type="checkbox"><span class="item-text">Communicate any flow changes to the team in real time</span></li>
+              <li><input type="checkbox"><span class="item-text">Note timing issues with the Time Clock Operator and 5 Star</span></li>
+              <li><input type="checkbox"><span class="item-text">Document any technical issues and approximate resolution times</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Debrief with the 5 Star on any open items before Touchdown</span></li>
+              <li><input type="checkbox"><span class="item-text">Coordinate corrections with the relevant operators before first service</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <p class="goal-note">Goal: Lead the Team Touchdown — review service flow with the team and highlight key transitions.</p>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Lead the Team Touchdown; walk through the service flow with all positions present</span></li>
+            <li><input type="checkbox"><span class="item-text">Highlight key transitions and assign responsibility to specific positions</span></li>
+            <li><input type="checkbox"><span class="item-text">Confirm any last-minute updates from the 5 Star are communicated to all positions</span></li>
+            <li><input type="checkbox"><span class="item-text">Address any open questions before service begins</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome</strong> — Confirm all positions are ready before countdown ends</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Ministry Time</strong> — Monitor execution; call transitions as needed</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close Worship / Info</strong> — Call transitions for team execution when necessary</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Offering</strong> — Confirm offering content and transitions are aligned</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Meet and Greet</strong> — Communicate any flow updates from the 5 Star</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Videos</strong> — Confirm video playback is cued; coordinate with PVS, PVP, and ProPresenter Operators</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Stay in constant communication with 5 Star; relay any timing or content adjustments to the team</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Call close transition; confirm clean end to service</span></li>
+            <li><input type="checkbox"><span class="item-text">Communicate any technical issues along with approximate resolution times</span></li>
+            <li><input type="checkbox"><span class="item-text">Contact Production Technician immediately in the case of any technical issues</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Debrief with each position on what worked and what needs adjustment for the next service</span></li>
+            <li><input type="checkbox"><span class="item-text">Communicate any flow or content changes for the next service to the team</span></li>
+            <li><input type="checkbox"><span class="item-text">Log any unresolved technical issues and follow up with the Production Technician</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────── PVP OPERATOR ──────────────── -->
+    <div class="checklist-section" id="cl-pvp" data-loc="hl ap hi">
+      <div class="checklist-title"><h2>PVP Operator Checklist</h2></div>
+      <div class="checklist-body">
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Power on the PVP workstation and launch ProVideoPlayer</span></li>
+              <li><input type="checkbox"><span class="item-text">Load the service playlist and verify all clips are present and in correct order</span></li>
+              <li><input type="checkbox"><span class="item-text">Play through each clip — confirm quality, color, and audio levels</span></li>
+              <li><input type="checkbox"><span class="item-text">Set correct in/out points for each clip if needed</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm PVP output is routing correctly to the switcher (verify with Tech Director)</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm intercom (comms) is live</span></li>
+              <li><input type="checkbox"><span class="item-text">Coordinate with ProPresenter Operator on any shared timing cues</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <p class="goal-note">Goal: Know your cues and content so every transition is clean and on time.</p>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text"><strong>Worship</strong> — Fire motion backgrounds on the worship downbeat; practice correct looping
+                <span class="item-sub">Note any song-specific background changes</span>
+              </span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>MC Segments</strong> — Cue appropriate backgrounds for each MC segment</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Special Segments</strong> — Rehearse timing for any custom content</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Confirm message background content fires correctly on cue</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Note any clip issues (wrong content, color mismatch, sync) and correct before first service</span></li>
+              <li><input type="checkbox"><span class="item-text">Communicate any routing issues to the Tech Director</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Confirm any last-minute content swaps or additions</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome</strong> — Fire opening background on countdown end or Director's cue</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Ministry Time</strong> — Manage worship backgrounds through the entire set</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close Worship / Info</strong> — Transition background to appropriate info content on cue</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Offering</strong> — Fire offering background if applicable</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Meet and Greet</strong> — Hold or transition content as directed</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Videos</strong> — PVP is typically held during pre-recorded video; stand by for next cue</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Hold message background through full message segment</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Fire close background on cue; hold until dismissed by Director</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Report any clip issues to the Team Lead</span></li>
+            <li><input type="checkbox"><span class="item-text">Note any content that needs updating or replacing before the next service</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────── LIGHTING DIRECTOR ──────────── -->
+    <div class="checklist-section" id="cl-lighting" data-loc="hl ap hi">
+      <div class="checklist-title"><h2>Lighting Director Checklist</h2></div>
+      <div class="checklist-body">
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Power on lighting console and verify network / DMX connection</span></li>
+              <li><input type="checkbox"><span class="item-text">Load the service show file and verify all cues are present</span></li>
+              <li><input type="checkbox"><span class="item-text">Walk through the cue list against the service flow — flag any missing or out-of-order cues</span></li>
+              <li><input type="checkbox"><span class="item-text">Test-fire each cue — verify all fixtures respond correctly</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm intercom (comms) is live</span></li>
+              <li><input type="checkbox"><span class="item-text">(Houston Levee) Verify Main Screen movement controls are connected and responsive</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <p class="goal-note">Goal: Cleanly hit every transition cue — exactly when called, no early fires, no missed looks.</p>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text"><strong>Worship</strong> — Fire worship looks on song downbeats; transition between songs cleanly</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>MC Segments</strong> — Fire MC looks on each segment transition</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Special Segments</strong> — Rehearse any non-standard cues</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Fire message look; hold steady for the full segment</span></li>
+              <li><input type="checkbox"><span class="item-text">(Houston Levee) Practice Main Screen movements on cue</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Note any cue issues and correct before first service</span></li>
+              <li><input type="checkbox"><span class="item-text">Communicate any fixture problems to the Team Lead</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Confirm any last-minute service flow changes that affect cue order</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome</strong> — Fire opening look on countdown end or Director's cue</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Ministry Time</strong> — Fire worship cues throughout the set; transition between songs cleanly</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close Worship / Info</strong> — Transition to info look on cue</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Offering</strong> — Fire offering look</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Meet and Greet</strong> — Hold or transition look as directed</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Videos</strong> — Hold or shift to video-appropriate look</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Hold message look through the full segment</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Fire close look on cue; hold until dismissed by Director</span></li>
+            <li><input type="checkbox"><span class="item-text">(Houston Levee) Execute Main Screen movements per service flow</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Note any cue or fixture issues for correction before next service</span></li>
+            <li><input type="checkbox"><span class="item-text">Report any console or hardware problems to the Team Lead</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────── PVS OPERATOR ──────────────── -->
+    <div class="checklist-section" id="cl-pvs" data-loc="ap hi">
+      <div class="checklist-title"><h2>PVS Operator Checklist</h2></div>
+      <div class="checklist-body">
+        <div class="callout callout-receiving" style="margin-bottom:1.5rem;">
+          <strong>Memphis Locations Only</strong>
+          This position does not exist at the Houston Levee (Broadcast) location — Houston Levee originates the live feed rather than receiving it, so there is no Vitec stream to route through a ProVideoServer.
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Power on the PVS workstation and launch ProVideoServer</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify the Vitec broadcast feed from Houston Levee is incoming, stable, and signal quality is clean</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm PVS output is routing correctly to PVP and ProPresenter (verify with PVP and ProPresenter Operators)</span></li>
+              <li><input type="checkbox"><span class="item-text">Load the service playlist; verify all pre-loaded videos and message playback content are present and in correct order</span></li>
+              <li><input type="checkbox"><span class="item-text">Test playback of every cue — confirm video and audio quality</span></li>
+              <li><input type="checkbox"><span class="item-text">Set in/out points for each clip if needed</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm intercom (comms) is live</span></li>
+              <li><input type="checkbox"><span class="item-text">Coordinate with PVP and ProPresenter Operators on shared timing cues</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <p class="goal-note">Goal: Confirm every cue and transition is timed and ready — especially message playback.</p>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text"><strong>Worship</strong> — Monitor Vitec feed quality throughout the worship set</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>MC Segments</strong> — Cue any video content for MC segments as needed</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Special Segments</strong> — Rehearse cues for any custom video content</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Rehearse message playback cue; confirm timing with Team Lead, PVP, and ProPresenter Operators</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Note any clip issues (wrong content, color mismatch, sync) and correct before first service</span></li>
+              <li><input type="checkbox"><span class="item-text">Communicate any Vitec feed issues to the Team Lead immediately</span></li>
+              <li><input type="checkbox"><span class="item-text">Communicate any routing issues to the PVP and ProPresenter Operators</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Confirm any last-minute video content swaps or message playback changes</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome</strong> — Confirm Vitec feed is live and stable before service begins</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Ministry Time</strong> — Monitor Vitec feed throughout the worship set</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close Worship / Info</strong> — Cue any transition video content as directed</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Offering</strong> — Cue offering content as directed</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Meet and Greet</strong> — Stand by for next cue</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Videos</strong> — Fire any pre-recorded videos on the Team Lead's call</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Fire message playback precisely on the Team Lead's call; monitor playback quality through the full message</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Cue any close content as directed; hold until released by the Team Lead</span></li>
+            <li><input type="checkbox"><span class="item-text">Communicate immediately if the Vitec feed drops, lags, or shows quality issues</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Note any feed or playback issues for correction before the next service</span></li>
+            <li><input type="checkbox"><span class="item-text">Report any Vitec or server problems to the Team Lead</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ───────────────────────────────────────────── DIRECTOR ──────────────── -->
+    <div class="checklist-section" id="cl-director" data-loc="hl na">
+      <div class="checklist-title"><h2>Director Checklist</h2></div>
+      <div class="checklist-body">
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Review the service flow document thoroughly</span></li>
+              <li><input type="checkbox"><span class="item-text">Listen to all worship setlist songs — note key moments, intros, tag endings, and transitions</span></li>
+              <li><input type="checkbox"><span class="item-text">Note any special elements, video transitions, or Vitec segments</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm camera assignments and positions with all Camera Operators</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify intercom (comms) is functioning — test with all positions</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm all cameras are powered on and feeding signal to the switcher</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <p class="goal-note">Goal: Rehearse every segment so the first service is excellent. Call every shot. Communicate every transition.</p>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text"><strong>Worship</strong> — Call camera shots from downbeat to close
+                <span class="item-sub">Identify 2–3 go-to shots for each song (wide worship, singer close, band wide, etc.)</span>
+                <span class="item-sub">Watch transitions between songs — confirm PVP/lighting cues match camera transitions</span>
+                <span class="item-sub">Note builds and tag endings to anticipate camera moves in advance</span>
+              </span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>MC Segments</strong> — Confirm blocking and camera coverage for each MC
+                <span class="item-sub">Identify which camera handles each MC position; call graphics transitions with Tech Director</span>
+              </span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Special Segments</strong> — Rehearse any unique or non-standard elements
+                <span class="item-sub">Create shot-lists when necessary or instructed by Team Lead</span>
+              </span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Message Segment</strong> — Confirm camera positions; note any screen content or slide transitions
+                <span class="item-sub">Houston Levee: confirm Vitec transition points with Broadcast Director</span>
+                <span class="item-sub">Receiving Locations: confirm Vitec feed timing and local camera plan</span>
+              </span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Communicate any updates, corrections, or changes to Tech Director and Camera Operators</span></li>
+              <li><input type="checkbox"><span class="item-text">Note any camera positions that need adjustment before first service</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <p class="goal-note">Goal: Confirm all team members are aligned on service details and backup scenarios.</p>
+          <div class="callout callout-broadcast">
+            <strong>Houston Levee</strong>
+            Receive updates from the Team Lead and communicate any changes to the Tech Director before the service.
+          </div>
+          <div class="callout callout-receiving" style="margin-top:0.5rem;">
+            <strong>Receiving Locations</strong>
+            Review the flow, transitions, and special elements from the 5 Star. Ask any questions about Vitec transitions, local segment timing, and slide content.
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome</strong> — Call opening shots; confirm camera is live and framed before countdown reaches 0</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Ministry Time</strong> — Monitor stage; call appropriate camera coverage through the full worship set</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close Worship / Info</strong> — Transition cameras cleanly from worship to appropriate coverage</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Offering</strong> — Confirm graphic/slide transitions with Tech Director on cue</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Meet and Greet</strong> — Use this window for a brief camera reset; confirm positions for next segment</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Videos</strong> — Direct Tech Director to program feed for video; hold until video ends, then cut back to stage</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Execute message camera plan; stay alert to speaker movement and positioning
+              <span class="item-sub">Communicate any slide-related transitions to Tech Director</span>
+            </span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Call final shots; confirm with Tech Director when to transition to close graphic or countdown</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Debrief with Camera Operators and Tech Director — what worked, what needs adjustment</span></li>
+            <li><input type="checkbox"><span class="item-text">Log any technical issues or shot changes for reference</span></li>
+            <li><input type="checkbox"><span class="item-text">Discuss tweaks with the Team Lead before the next service</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────── TECH DIRECTOR ──────────────── -->
+    <div class="checklist-section" id="cl-td" data-loc="hl">
+      <div class="checklist-title"><h2>Tech Director Checklist</h2></div>
+      <div class="checklist-body">
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Power on the video switcher and all associated equipment</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify all camera feeds are present on the multiviewer</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify PVP and ProPresenter outputs are routing correctly to the switcher</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm program output is feeding correctly to in-room screens
+                <span class="item-sub">Houston Levee: confirm signal is also routing to Vitec distribution</span>
+              </span></li>
+              <li><input type="checkbox"><span class="item-text">Load any pre-programmed macros or transition settings for this service</span></li>
+              <li><input type="checkbox"><span class="item-text">Test all transitions — cuts, dissolves, wipes — with each source</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm intercom (comms) is live and clear with the Director</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify all inputs are labeled and correctly assigned on the panel</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <p class="goal-note">Goal: Build muscle memory for every transition the Director will call. Know what's coming before it's called.</p>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Respond to every Director shot call immediately and precisely</span></li>
+              <li><input type="checkbox"><span class="item-text">Note transition timing between all segments — especially Vitec ↔ Local switchovers</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm PVP and ProPresenter cues are timed correctly with camera transitions</span></li>
+              <li><input type="checkbox"><span class="item-text">Practice Vitec/Local transitions until they are clean and reliably timed</span></li>
+              <li><input type="checkbox"><span class="item-text">Note any sources that have signal issues or require monitoring</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Communicate any signal or routing issues to the Director</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm any last-minute changes to the transition flow</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <div class="callout callout-broadcast">
+            <strong>Houston Levee</strong>
+            Attend only if changes were made after the run-through. Confirm any revised transition sequences.
+          </div>
+          <div class="callout callout-receiving" style="margin-top:0.5rem;">
+            <strong>Receiving Locations</strong>
+            Attend Tech Touchdown. Note any Vitec transition adjustments and confirm local routing plan.
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome</strong> — Cut to opening camera on Director's first call; confirm program is live</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Ministry Time</strong> — Execute all shot calls cleanly; keep eyes on all feeds at all times</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close Worship / Info</strong> — Execute source transitions on Director's call</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Offering</strong> — Switch to offering graphic/slide on cue; return to camera on Director's call</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Meet and Greet</strong> — Hold camera feed; stay ready for the next cue</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Videos</strong> — Roll pre-recorded video on Director's cue; confirm clean handoff from live cameras</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Execute all shot calls; monitor for any signal or feed issues</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Transition to close graphic or countdown on Director's cue</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Power down switcher and equipment per standard shutdown procedure between services (if applicable)</span></li>
+            <li><input type="checkbox"><span class="item-text">Report any signal issues or switcher problems to the Team Lead</span></li>
+            <li><input type="checkbox"><span class="item-text">Debrief with the Director on any transitions that need adjustment</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────── CAMERA OPERATOR ──────────────── -->
+    <div class="checklist-section" id="cl-camera" data-loc="hl na">
+      <div class="checklist-title"><h2>Camera Operator Checklist</h2></div>
+      <div class="checklist-body">
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Arrive at call time; power on camera and remove lens cap immediately</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify camera is properly mounted and secured on the tripod head</span></li>
+              <li><input type="checkbox"><span class="item-text">Connect camera cable; confirm signal is reaching the production booth</span></li>
+              <li><input type="checkbox"><span class="item-text">Set white balance for current stage lighting conditions</span></li>
+              <li><input type="checkbox"><span class="item-text">Set exposure and gain; avoid blown highlights on faces</span></li>
+              <li><input type="checkbox"><span class="item-text">Test zoom range and confirm focus is smooth and accurate</span></li>
+              <li><input type="checkbox"><span class="item-text">Test pan and tilt — confirm head is balanced and movements are fluid</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm intercom (comms) is live and Director is clearly audible</span></li>
+              <li><input type="checkbox"><span class="item-text">Review your assigned camera position and primary shot responsibilities</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <p class="goal-note">Goal: Rehearse your shots so every move is intentional and confident. Sell every frame to the Director.</p>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text"><strong>Worship</strong> — Find and hold your assigned shots; practice transitions between songs
+                <span class="item-sub">Develop 2–3 reliable go-to shots per song format (wide, close, band)</span>
+                <span class="item-sub">Practice zoom moves on song builds and tag endings</span>
+              </span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>MC Segments</strong> — Frame your assigned MC; confirm blocking and coverage with Director</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Special Segments</strong> — Rehearse any non-standard camera coverage</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Confirm message framing; practice reframing for speaker movement</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Communicate any issues (focus, cable tension, obstructed sightlines) to the Director</span></li>
+              <li><input type="checkbox"><span class="item-text">Adjust camera position if Director requests a change before first service</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Listen for any camera coverage changes; ask if anything is unclear</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome</strong> — On position; hold opening frame steady until called</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Ministry Time</strong> — Execute Director's calls; stay locked in on your zone</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close Worship / Info</strong> — Smooth transitions; anticipate song endings</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Offering</strong> — Hold or park on a wide, safe frame</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Meet and Greet</strong> — Reframe if needed for next segment; stay ready</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Videos</strong> — Camera is typically not live; reposition for next segment if needed</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Track speaker movement; maintain proper framing and headroom at all times</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Hold final frame until released by Director</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Power down camera if instructed between services</span></li>
+            <li><input type="checkbox"><span class="item-text">Report any equipment issues (focus, cable, head movement) to the Team Lead</span></li>
+            <li><input type="checkbox"><span class="item-text">Debrief with Director on any shot adjustments for next service</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────── TIME CLOCK OPERATOR ───────────── -->
+    <div class="checklist-section" id="cl-clock" data-loc="hl">
+      <div class="checklist-title"><h2>Time Clock Operator Checklist</h2></div>
+      <div class="checklist-body">
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Review the service flow document; note every time-sensitive segment</span></li>
+              <li><input type="checkbox"><span class="item-text">Load and verify all time segments in the clock system</span></li>
+              <li><input type="checkbox"><span class="item-text">Align countdown segments to match the correct service flow sequence</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm intercom (comms) is live</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm the Director and 5 Star know you are in position and ready</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <p class="goal-note">Goal: Document actual timing vs. planned timing for every segment. Be the team's source of truth on time.</p>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text"><strong>Worship</strong> — Start clock at worship downbeat; record actual vs. planned duration</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>MC Segments</strong> — Time each MC segment; note any overruns or underruns</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Special Segments</strong> — Document timing of any non-standard elements</span></li>
+              <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Begin message clock at first word; note pacing</span></li>
+              <li><input type="checkbox"><span class="item-text">Log all time discrepancies; communicate summary to Director and 5 Star after run-through</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Share timing notes with Director and 5 Star</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm any adjusted time allocations for first service</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Note any timing changes agreed upon at Touchdown; update clock sequences accordingly</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome</strong> — Start clock at service downbeat</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Ministry Time</strong> — Monitor worship clock; alert Director and 5 Star if segment runs long</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close Worship / Info</strong> — Note transition timing</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Offering</strong> — Clock offering segment</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Meet and Greet</strong> — Communicate remaining time if needed</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Videos</strong> — Note video start and end times</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Monitor message clock continuously; alert Director and 5 Star at agreed warning times
+              <span class="item-sub">Standard practice: notify at 10 minutes remaining, 5 minutes remaining, and time</span>
+            </span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Confirm close segment is on time; communicate if overrun</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Report final actual timing to the Director and Team Lead</span></li>
+            <li><input type="checkbox"><span class="item-text">Flag any segments that consistently run over for future review</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────── BROADCAST DIRECTOR ────────────── -->
+    <div class="checklist-section" id="cl-broadcast" data-loc="hl">
+      <div class="checklist-title"><h2>Broadcast Director Checklist</h2></div>
+      <div class="checklist-body">
+        <div class="callout callout-broadcast" style="margin-bottom:1.5rem;">
+          <strong>Houston Levee Only</strong>
+          This checklist applies exclusively to the Houston Levee (Broadcast Location). This role does not exist at Receiving Locations.
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Review the full service flow with a broadcast lens — identify every Vitec transition point</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm Vitec distribution is online and feeding signal to all four Receiving Locations</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify program output signal quality on the outgoing feed</span></li>
+              <li><input type="checkbox"><span class="item-text">Coordinate with Tech Director on all Vitec ↔ Local transition timing</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm recording pipeline is connected to broadcast output (coordinate with Recording Engineer)</span></li>
+              <li><input type="checkbox"><span class="item-text">Test comms with Receiving Locations if applicable</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <p class="goal-note">Goal: Ensure the broadcast feed is broadcast-appropriate and transitions cleanly between Vitec and local content at every point.</p>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Monitor the outgoing Vitec feed continuously — not just the in-room program</span></li>
+              <li><input type="checkbox"><span class="item-text">Note and confirm timing on every Vitec ↔ Local transition with Director and Tech Director</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify all pre-recorded content is broadcast-quality before it is committed to program</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm audio is clean on the broadcast feed at every transition point</span></li>
+              <li><input type="checkbox"><span class="item-text">Note any signal or encoding issues during run-through</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Communicate any broadcast-specific adjustments to Director and Tech Director</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm Vitec feed is stable and all four Receiving Locations are receiving signal</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Attend only if changes were made after run-through; confirm any revised transition sequences</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome</strong> — Confirm Vitec feed is live and stable before service begins</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Ministry Time</strong> — Monitor broadcast feed throughout the worship set</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close Worship / Info</strong> — Monitor Vitec/Local transition; confirm clean handoff</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Offering</strong> — Confirm offering content is feeding correctly to broadcast</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Meet and Greet</strong> — Monitor feed stability</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Videos</strong> — Confirm pre-recorded video is feeding correctly to Vitec</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Monitor broadcast feed through full message; watch for any signal drops</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Confirm close content is feeding to Vitec</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Confirm Vitec feed is shut down properly after the final service</span></li>
+            <li><input type="checkbox"><span class="item-text">Report any signal or distribution issues to the Team Lead</span></li>
+            <li><input type="checkbox"><span class="item-text">Debrief with Tech Director and Director on broadcast quality</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────── RECORDING ENGINEER ────────────── -->
+    <div class="checklist-section" id="cl-recording" data-loc="hl">
+      <div class="checklist-title"><h2>Recording Engineer Checklist</h2></div>
+      <div class="checklist-body">
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Power on all recording equipment and verify all connections</span></li>
+              <li><input type="checkbox"><span class="item-text">Insert fresh recording media (SSD or equivalent) — never reuse media without confirming it has been cleared</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify the recording device is receiving the correct program feed (confirm with Tech Director or Broadcast Director)</span></li>
+              <li><input type="checkbox"><span class="item-text">Set and verify recording levels — avoid clipping; confirm clean signal</span></li>
+              <li><input type="checkbox"><span class="item-text">Test record for 30 seconds; play back to verify both video and audio quality</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm file naming convention with Team Lead
+                <span class="item-sub">Standard format: Date_Service_Location (e.g., 2026-03-16_9AM_HoustonLevee)</span>
+              </span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm intercom (comms) is live</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>Livestream Setup</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Confirm the YouTube livestream event is created in YouTube Studio for today's service
+                <span class="item-sub">Verify title, description, scheduled start time, thumbnail, and visibility (public/unlisted) match the church's standard</span>
+              </span></li>
+              <li><input type="checkbox"><span class="item-text">Power on the streaming encoder and confirm it is feeding the correct program signal</span></li>
+              <li><input type="checkbox"><span class="item-text">Connect the encoder to YouTube; verify stream key is current and authorized</span></li>
+              <li><input type="checkbox"><span class="item-text">Send a test stream to YouTube; confirm stream health reads "Excellent" or "Good"</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify audio is present and levels are correct on the YouTube preview</span></li>
+              <li><input type="checkbox"><span class="item-text">Stop the test stream so the live event is ready to start cleanly at countdown</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Monitor recording signal to confirm feed is correct and stable</span></li>
+              <li><input type="checkbox"><span class="item-text">Note any signal issues or feed changes that may affect recording quality</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Confirm recording system is armed and ready for first service</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm encoder is connected to YouTube and stream health is good</span></li>
+              <li><input type="checkbox"><span class="item-text">Communicate any technical issues to the Team Lead</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Confirm with Broadcast Director or Tech Director if any recording source changes are planned</span></li>
+            <li><input type="checkbox"><span class="item-text">Confirm the YouTube event is ready and stream health is good</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Before countdown</strong> — Begin recording before the countdown video starts; never start late</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Go live on YouTube</strong> — Start the YouTube livestream before countdown ends; confirm the event status reads "Live" before service begins</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome through Message</strong> — Monitor recording levels and feed quality throughout
+              <span class="item-sub">Watch for signal loss, dropped frames, or disk errors</span>
+              <span class="item-sub">Watch the YouTube stream health, bitrate, and dropped-frame indicators throughout the service</span>
+              <span class="item-sub">Spot-check the public YouTube watch page to confirm video and audio are reaching viewers</span>
+              <span class="item-sub">Do not stop recording or the livestream mid-service unless directed by the Team Lead</span>
+            </span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Continue recording and streaming through close and any post-service content as required</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Stop recording</strong> — Stop at the designated point after service (confirm endpoint with Team Lead)</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>End livestream</strong> — End the YouTube broadcast cleanly at the agreed endpoint; do not cut off mid-segment</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Allow recording media to finalize safely — never force eject</span></li>
+            <li><input type="checkbox"><span class="item-text">Eject recording media properly; label immediately with date, service time, and location</span></li>
+            <li><input type="checkbox"><span class="item-text">Back up all recorded files to designated storage location</span></li>
+            <li><input type="checkbox"><span class="item-text">Verify file integrity — confirm video plays back correctly before leaving</span></li>
+            <li><input type="checkbox"><span class="item-text">Deliver any edited message content per the agreed format and timeline</span></li>
+            <li><input type="checkbox"><span class="item-text">Confirm the YouTube broadcast archived correctly and is viewable per the church's visibility settings</span></li>
+            <li><input type="checkbox"><span class="item-text">Update the YouTube event title, description, or thumbnail post-service if required</span></li>
+            <li><input type="checkbox"><span class="item-text">Report any recording or livestream issues to the Team Lead</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────── PRODUCTION ASSISTANT ──────────── -->
+    <div class="checklist-section" id="cl-pa" data-loc="hl">
+      <div class="checklist-title"><h2>Production Assistant Checklist</h2></div>
+      <div class="checklist-body">
+        <div class="callout callout-broadcast" style="margin-bottom:1.5rem;">
+          <strong>Houston Levee Only</strong>
+          The Production Assistant supports the broadcast production team across the entire service — fills gaps, assists every position, and keeps the production environment running smoothly.
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Preservice</div>
+          <div class="sub-phase">
+            <h4>Before Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Arrive at call time and check in with the Team Lead and Director for the day's priorities</span></li>
+              <li><input type="checkbox"><span class="item-text">Assist Camera Operators with cable runs, cable management, and equipment checks</span></li>
+              <li><input type="checkbox"><span class="item-text">Distribute comms packs and fresh batteries to all positions that need them</span></li>
+              <li><input type="checkbox"><span class="item-text">Verify your own intercom (comms) is live and clearly audible</span></li>
+              <li><input type="checkbox"><span class="item-text">Confirm all stage elements (props, instruments, mic stands) are placed correctly</span></li>
+              <li><input type="checkbox"><span class="item-text">Ask the Team Lead and Director where you're most needed before the run-through begins</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>During Full Service Run-Through</h4>
+            <p class="goal-note">Goal: Stay alert and available — anticipate what the team needs before they ask.</p>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Stand by during run-through; respond to requests from any position quickly</span></li>
+              <li><input type="checkbox"><span class="item-text">Note any stage transitions or moves that will need assistance during service</span></li>
+              <li><input type="checkbox"><span class="item-text">Run any errands between the production booth, stage, and other locations as directed</span></li>
+              <li><input type="checkbox"><span class="item-text">Relay messages between the Director, Team Lead, 5 Star, and on-stage talent when needed</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-phase">
+            <h4>After Full Service Run-Through</h4>
+            <ul class="check-list">
+              <li><input type="checkbox"><span class="item-text">Confirm any stage moves or prop changes for first service with the Team Lead</span></li>
+              <li><input type="checkbox"><span class="item-text">Address any issues flagged during the run-through (cabling, comms, stage placement)</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Touchdown</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Listen for any last-minute service flow changes that affect stage moves or transitions</span></li>
+            <li><input type="checkbox"><span class="item-text">Confirm your assignments for the service with the Team Lead</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text"><strong>Welcome</strong> — Be in position; ready to respond to any request</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Ministry Time</strong> — Stand by for any equipment, cabling, or talent needs</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close Worship / Info</strong> — Execute any planned stage moves cleanly and quickly</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Offering</strong> — Assist with any prop or stage changes as directed</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Meet and Greet</strong> — Use this window to reset stage elements for the message segment</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Videos</strong> — Stand by; assist with any pre-positioned moves before the next live segment</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Message</strong> — Stay alert for talent water, mic, or comms issues; respond quickly and quietly</span></li>
+            <li><input type="checkbox"><span class="item-text"><strong>Close</strong> — Execute any final stage moves; assist with talent transitions off stage</span></li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-header">Post Service</div>
+          <ul class="check-list">
+            <li><input type="checkbox"><span class="item-text">Collect comms packs and batteries; place chargers as needed for the next service</span></li>
+            <li><input type="checkbox"><span class="item-text">Reset any stage elements moved during service</span></li>
+            <li><input type="checkbox"><span class="item-text">Assist with teardown and storage of all equipment after the final service</span></li>
+            <li><input type="checkbox"><span class="item-text">Report any equipment issues or supply needs to the Team Lead</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <div style="margin-top:4rem; padding-top:1.5rem; border-top:3px solid var(--black); text-align:center; color:var(--muted); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; font-weight:600;">
+    The Life Church &nbsp;·&nbsp; Production Team &nbsp;·&nbsp; Internal Use Only
+  </div>
+
+</div>
+
+<script>
+  (function () {
+    const buttons = document.querySelectorAll('.loc-filter-btn');
+    const filterables = document.querySelectorAll('[data-loc]');
+
+    function applyFilter(loc) {
+      document.body.dataset.activeLoc = loc;
+      buttons.forEach(b => b.classList.toggle('active', b.dataset.filter === loc));
+      filterables.forEach(el => {
+        const locs = el.dataset.loc.split(/\s+/).filter(Boolean);
+        const show = loc === 'all' || locs.includes(loc);
+        el.classList.toggle('loc-hidden', !show);
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
+    });
+
+    applyFilter('all');
+  })();
+</script>
+</body>
+</html>
