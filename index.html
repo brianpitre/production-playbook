@@ -478,10 +478,11 @@
     /* ─── Responsive ───────────────────────────────────────────────────────── */
     @media (max-width: 640px) {
       h1 { font-size: 2rem; }
+      .cover h1 { font-size: clamp(1.6rem, 10vw, 2.4rem); }
       .attributes-grid { grid-template-columns: 1fr; }
       .service-segment { flex-direction: column; gap: 0.3rem; }
       .seg-label { min-width: unset; }
-      .cover { padding: 3rem 1.5rem; }
+      .cover { padding: 3rem 1.5rem; margin-left: -1.25rem; margin-right: -1.25rem; }
       .page-wrap { padding: 0 1.25rem 3rem; }
     }
   </style>
